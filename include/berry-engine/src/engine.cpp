@@ -1,5 +1,7 @@
 #include <berry-engine/engine.h>
 
+#include <stdlib.h>
+
 #include <glad/glad.h>
 
 int berry::Engine::getMaxVertexAttribs() {

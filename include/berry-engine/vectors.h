@@ -7,17 +7,66 @@ namespace berry {
 
     class Vec2 {
         public:
-            longlong x, y;
+            float x, y;
 
-            Vec2(longlong x, longlong y);
+            Vec2(float x, float y);
 
+            Vec2 operator+(float value);
+            Vec2 operator-(float value);
+            Vec2 operator*(float value);
+            Vec2 operator/(float value);
+
+            Vec2 operator-();
+
+            Vec2 operator+(const Vec2 &vec);
+            Vec2 operator-(const Vec2 &vec);
+
+            void operator+=(float value);
+            void operator-=(float value);
+            void operator*=(float value);
+            void operator/=(float value);
+
+            void negate();
+
+            float length() const;
+            float dot(const Vec2 &vec) const;
     };
 
     class Vec3 {
         public:
-            longlong x, y, z;
+            float x, y, z;
 
-            Vec3(longlong x, longlong y, longlong z);
+            Vec3(float x = 0.0f, float y = 0.0f, float z = 0.0f);
+
+            Vec3 operator+(float value);
+            Vec3 operator-(float value);
+            Vec3 operator*(float value);
+            Vec3 operator/(float value);
+
+            Vec3 operator-();
+
+            Vec3 operator+(const Vec3 &vec);
+            Vec3 operator-(const Vec3 &vec);
+
+            void operator+=(float value);
+            void operator-=(float value);
+            void operator*=(float value);
+            void operator/=(float value);
+
+            void negate();
+
+            float length() const;
+            float dot(const Vec3 &vec) const;
+    };
+
+    class Vec4 {
+        public:
+            float x, y, z, w;
+
+            Vec4(float x = 0.0f, float y = 0.0f, float z = 0.0f, float w = 1.0f);
+
+            float length() const;
+            float dot(const Vec4 &vec) const;
     };
 
 }

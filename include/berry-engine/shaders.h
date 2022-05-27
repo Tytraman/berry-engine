@@ -4,6 +4,8 @@
 #include <libcake/def.h>
 #include <libcake/strutf8.h>
 
+#include <berry-engine/matrices.h>
+
 namespace berry {
 
     class VertexShader {
@@ -55,6 +57,8 @@ namespace berry {
             void setUniform(const char *uniformName, float v1, float v2) const;
             void setUniform(const char *uniformName, float v1, float v2, float v3) const;
             void setUniform(const char *uniformName, float v1, float v2, float v3, float v4) const;
+
+            void setUniform(const char *uniformName, const Mat4 &mat) const;
     };
 
 }

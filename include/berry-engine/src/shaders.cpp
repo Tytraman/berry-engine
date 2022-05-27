@@ -114,3 +114,9 @@ void berry::ShaderProgram::setUniform(const char *uniformName, float v1, float v
     glUseProgram(this->program);
     glUniform4f(location, v1, v2, v3, v4);
 }
+
+void berry::ShaderProgram::setUniform(const char *uniformName, const Mat4 &mat) const {
+    int location = glGetUniformLocation(this->program, uniformName);
+    glUseProgram(this->program);
+    glUniformMatrix4fv(location, 1, GL_FALSE, mat.data);
+}
