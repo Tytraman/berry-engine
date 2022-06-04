@@ -1,4 +1,5 @@
 #include <berry-engine/matrices.h>
+#include <berry-engine/def.h>
 
 #include <math.h>
 #include <iostream>
@@ -86,41 +87,69 @@ berry::Mat4 berry::Mat4::scale(const Mat4 &mat, float x, float y, float z) {
 }
 
 berry::Mat4 berry::Mat4::translate(const Mat4 &mat, float x, float y, float z) {
-    float values[] = {
+    /* float values[] = {
         1.0f, 0.0f, 0.0f, x,
         0.0f, 1.0f, 0.0f, y,
         0.0f, 0.0f, 1.0f, z,
         0.0f, 0.0f, 0.0f, 1.0f
+    }; */
+
+    float values[] = {
+        1.0f, 0.0f, 0.0f, 0.0f,
+        0.0f, 1.0f, 0.0f, 0.0f,
+        0.0f, 0.0f, 1.0f, 0.0f,
+        x, y, z, 1.0f
     };
     return Mat4(values) * mat;
 }
 
 berry::Mat4 berry::Mat4::rotateX(const Mat4 &mat, float radians) {
-    float values[] = {
+    /* float values[] = {
         1.0f, 0.0f,          0.0f,           0.0f,
         0.0f, cosf(radians), -sinf(radians), 0.0f,
         0.0f, sinf(radians), cosf(radians),  0.0f,
         0.0f, 0.0f,          0.0f,           1.0f
+    }; */
+
+    float values[] = {
+        1.0f, 0.0f,           0.0f,          0.0f,
+        0.0f, cosf(radians),  sinf(radians), 0.0f,
+        0.0f, -sinf(radians), cosf(radians), 0.0f,
+        0.0f, 0.0f,           0.0f,          1.0f
     };
     return Mat4(values) * mat;
 }
 
 berry::Mat4 berry::Mat4::rotateY(const Mat4 &mat, float radians) {
-    float values[] = {
+    /* float values[] = {
         cosf(radians),  0.0f, sinf(radians), 0.0f,
         0.0f,           1.0f, 0.0f,          0.0f,
         -sinf(radians), 0.0f, cos(radians),  0.0f,
         0.0f,           0.0f, 0.0f,          1.0f
+    }; */
+
+    float values[] = {
+        cosf(radians), 0.0f, -sinf(radians), 0.0f,
+        0.0f,          1.0f, 0.0f,           0.0f,
+        sinf(radians), 0.0f, cosf(radians),  0.0f,
+        0.0f,          0.0f, 0.0f,           1.0f
     };
     return Mat4(values) * mat;
 }
 
 berry::Mat4 berry::Mat4::rotateZ(const Mat4 &mat, float radians) {
-    float values[] = {
+    /* float values[] = {
         cosf(radians), -sinf(radians), 0.0f, 0.0f,
         sinf(radians), cosf(radians),  0.0f, 0.0f,
         0.0f,          0.0f,           1.0f, 0.0f,
         0.0f,          0.0f,           0.0f, 1.0f
+    }; */
+
+    float values[] = {
+        cosf(radians),  sinf(radians), 0.0f, 0.0f,
+        -sinf(radians), cosf(radians), 0.0f, 0.0f,
+        0.0f,           0.0f,          1.0f, 0.0f,
+        0.0f,           0.0f,          0.0f, 1.0f
     };
     return Mat4(values) * mat;
 }
@@ -132,4 +161,34 @@ void berry::Mat4::print() const {
         "  " << this->data[4] << ", " << this->data[5] << ", " << this->data[6] << ", " << this->data[7] << "," << std::endl <<
         "  " << this->data[8] << ", " << this->data[9] << ", " << this->data[10] << ", " << this->data[11] << "," << std::endl <<
         "  " << this->data[12] << ", " << this->data[13] << ", " << this->data[14] << ", " << this->data[15] << std::endl << "}" << std::endl;
+}
+
+berry::Mat4 berry::Mat4::perspective(float fovy, float aspectRatio, float znear, float zfar) {
+    float tanHalfFovy = tanf(fovy / 2.0f);
+
+    float values[16]; /* = {
+        _2n / r_minus_l, 0.0f, (right + left) / r_minus_l, 0.0f,
+        0.0f, _2n / t_minus_b, (top + bottom) / t_minus_b, 0.0f,
+        0.0f, 0.0f, (-zfar - znear) / far_minus_near, (-_2n * zfar) / far_minus_near,
+        0.0f, 0.0f, -1.0f, 0.0f
+    }; */
+
+    values[0] = 1.0f / (aspectRatio * tanHalfFovy);
+    values[1] = 0.0f,
+    values[2] = 0.0f;
+    values[3] = 0.0f;
+    values[4] = 0.0f;
+    values[5] = 1.0f / tanHalfFovy;
+    values[6] = 0.0f;
+    values[7] = 0.0f;
+    values[8] = 0.0f;
+    values[9] = 0.0f;
+    values[10] = -(zfar + znear) / (zfar - znear);
+    values[11] = -1.0f;
+    values[12] = 0.0f;
+    values[13] = 0.0f;
+    values[14] = -(2.0f * zfar * znear) / (zfar - znear);
+    values[15] = 0.0f;
+
+    return Mat4(values);
 }

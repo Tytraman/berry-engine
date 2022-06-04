@@ -29,6 +29,8 @@ namespace berry {
             static Mat4 rotateY(const Mat4 &mat, float radians);
             static Mat4 rotateZ(const Mat4 &mat, float radians);
 
+            static Mat4 perspective(float fovy, float aspectRatio, float znear, float zfar);
+
             void print() const;
 
             float data[16];
