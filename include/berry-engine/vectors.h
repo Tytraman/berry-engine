@@ -38,25 +38,31 @@ namespace berry {
 
             Vec3(float x = 0.0f, float y = 0.0f, float z = 0.0f);
 
-            Vec3 operator+(float value);
-            Vec3 operator-(float value);
-            Vec3 operator*(float value);
-            Vec3 operator/(float value);
+            Vec3 operator+(float value) const;
+            Vec3 operator-(float value) const;
+            Vec3 operator*(float value) const;
+            Vec3 operator/(float value) const;
 
             Vec3 operator-();
 
-            Vec3 operator+(const Vec3 &vec);
-            Vec3 operator-(const Vec3 &vec);
+            Vec3 operator+(const Vec3 &vec) const;
+            Vec3 operator-(const Vec3 &vec) const;
 
             void operator+=(float value);
             void operator-=(float value);
             void operator*=(float value);
             void operator/=(float value);
 
+            void operator+=(const Vec3 &vec);
+            void operator-=(const Vec3 &vec);
+
             void negate();
 
             float length() const;
             float dot(const Vec3 &vec) const;
+
+            static Vec3 normalize(const Vec3 &vec);
+            static Vec3 cross(const Vec3 &a, const Vec3 &b);
     };
 
     class Vec4 {

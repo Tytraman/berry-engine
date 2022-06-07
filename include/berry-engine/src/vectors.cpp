@@ -74,19 +74,19 @@ float berry::Vec2::dot(const Vec2 &vec) const {
     return (this->x * vec.x) + (this->y * vec.y);
 }
 
-berry::Vec3 berry::Vec3::operator+(float value) {
+berry::Vec3 berry::Vec3::operator+(float value) const {
     return { this->x + value, this->y + value, this->z + value };
 }
 
-berry::Vec3 berry::Vec3::operator-(float value) {
+berry::Vec3 berry::Vec3::operator-(float value) const {
     return { this->x - value, this->y - value, this->z - value };
 }
 
-berry::Vec3 berry::Vec3::operator*(float value) {
+berry::Vec3 berry::Vec3::operator*(float value) const {
     return { this->x * value, this->y * value, this->z * value };
 }
 
-berry::Vec3 berry::Vec3::operator/(float value) {
+berry::Vec3 berry::Vec3::operator/(float value) const {
     return { this->x / value, this->y / value, this->z / value };
 }
 
@@ -94,12 +94,24 @@ berry::Vec3 berry::Vec3::operator-() {
     return { -this->x, -this->y, -this->z };
 }
 
-berry::Vec3 berry::Vec3::operator+(const Vec3 &vec) {
+berry::Vec3 berry::Vec3::operator+(const Vec3 &vec) const {
     return { this->x + vec.x, this->y + vec.y, this->z + vec.z };
 }
 
-berry::Vec3 berry::Vec3::operator-(const Vec3 &vec) {
+berry::Vec3 berry::Vec3::operator-(const Vec3 &vec) const {
     return { this->x - vec.x, this->y - vec.y, this->z - vec.z };
+}
+
+void berry::Vec3::operator+=(const Vec3 &vec) {
+    this->x += vec.x;
+    this->y += vec.y;
+    this->z += vec.z;
+}
+
+void berry::Vec3::operator-=(const Vec3 &vec) {
+    this->x -= vec.x;
+    this->y -= vec.y;
+    this->z -= vec.z;
 }
 
 void berry::Vec3::operator+=(float value) {
@@ -153,4 +165,21 @@ float berry::Vec4::length() const {
 
 float berry::Vec4::dot(const Vec4 &vec) const {
     return (this->x * vec.x) + (this->y * vec.y) + (this->z * vec.z) + (this->w * vec.w);
+}
+
+berry::Vec3 berry::Vec3::normalize(const Vec3 &vec) {
+    float length = vec.length();
+    return {
+        vec.x / length,
+        vec.y / length,
+        vec.z / length
+    };
+}
+
+berry::Vec3 berry::Vec3::cross(const Vec3 &a, const Vec3 &b) {
+    return {
+        a.y * b.z - a.z * b.y,
+        a.z * b.x - a.x * b.z,
+        a.x * b.y - a.y * b.x
+    };
 }

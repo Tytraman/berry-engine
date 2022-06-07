@@ -42,5 +42,5 @@ cake_bool berry::Engine::updateFPSCount() {
 
 void berry::Engine::setTargetFPS(ushort value) {
     targetFPS = value;
-    targetFrameTime = 1000.0f / targetFPS;
+    targetFrameTime = 1.0f / targetFPS;
 }
