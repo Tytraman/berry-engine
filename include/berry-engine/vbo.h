@@ -10,8 +10,9 @@ namespace berry {
             uint vbo;
             void *buffer;
             longlong size;
+            uint verticesNumber;
 
-        VBO(const void *buffer, longlong size);
+        VBO(const void *buffer, longlong size, uint verticesNumber);
         ~VBO();
         void bind() const;
     };

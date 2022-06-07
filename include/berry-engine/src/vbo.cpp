@@ -4,9 +4,10 @@
 
 #include <stdio.h>
 
-berry::VBO::VBO(const void *buffer, longlong size) {
+berry::VBO::VBO(const void *buffer, longlong size, uint verticesNumber) {
     this->buffer = new uchar[size];
     this->size   = size;
+    this->verticesNumber = verticesNumber;
 
     memcpy(this->buffer, buffer, this->size);
 

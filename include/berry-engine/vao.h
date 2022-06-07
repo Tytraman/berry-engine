@@ -11,6 +11,8 @@ namespace berry {
     class VAO {
         public:
             uint vao;
+            const VBO &vbo;
+            const EBO *ebo;
 
             VAO(const VAO &) = delete;
             VAO(const VAO &&) = delete;
@@ -29,8 +31,7 @@ namespace berry {
                     ulonglong offset;
                 } *elements;
             };
-            const VBO &vbo;
-            const EBO *ebo;
+            
 
             attributes_b attributes;
     };
