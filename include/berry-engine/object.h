@@ -19,7 +19,10 @@ namespace berry {
 
             Object(Object &) = delete;
             Object(Object &&) = delete;
-            Object(VAO &vao, ShaderProgram &shader, float x = 0.0f, float y = 0.0f, float z = 0.0f, float degreesX = 0.0f, float degreesY = 0.0f, float degreesZ = 0.0f, float scaleX = 1.0f, float scaleY = 1.0f, float scaleZ = 1.0f);
+            Object(VAO &vao, ShaderProgram &shader,
+                    float x = 0.0f, float y = 0.0f, float z = 0.0f,
+                    float degreesX = 0.0f, float degreesY = 0.0f, float degreesZ = 0.0f,
+                    float scaleX = 1.0f, float scaleY = 1.0f, float scaleZ = 1.0f);
 
             void render() const;
         private:

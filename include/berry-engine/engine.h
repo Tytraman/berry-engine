@@ -19,6 +19,7 @@ namespace berry {
             
             static float frameTime;
             static float deltaTime;
+            static float realDeltaTime;
             static ulonglong lastFrame;
 
         private:
