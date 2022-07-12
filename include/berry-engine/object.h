@@ -14,19 +14,29 @@ namespace berry {
     class Object {
         public:
             Object(
-                Mesh &mesh,
+                Mesh *mesh,
                 float x = 0.0f, float y = 0.0f, float z = 0.0f,
                 float degreesX = 0.0f, float degreesY = 0.0f, float degreesZ = 0.0f,
                 float scaleX = 1.0f, float scaleY = 1.0f, float scaleZ = 1.0f
             );
 
             void render(ShaderProgram &shader) const;
+
+            Vec3 getPosition() const;
+            Vec3 getRotation() const;
+            Vec3 getScale() const;
+            Mesh *getMesh();
+
+            void setPosition(const Vec3 &position);
+            void setRotation(const Vec3 &rotation);
+            void setScale(const Vec3 &scale);
+            void setMesh(Mesh *mesh);
         private:
             Vec3 m_Pos;
             Vec3 m_Rotate;
             Vec3 m_Scale;
 
-            Mesh &m_Mesh;
+            Mesh *m_Mesh;
     };
 
 }

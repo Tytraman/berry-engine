@@ -23,13 +23,13 @@ berry::Mesh berry::OBJ::load(const char *filename) {
     char decSep = '.';
     ulonglong i;
 
-    Vec3Array vertexPositions;
-    Vec2Array texCoords;
-    Vec3Array normalPositions;
+    ArrayList<Vec3> vertexPositions;
+    ArrayList<Vec2> texCoords;
+    ArrayList<Vec3> normalPositions;
 
-    UIntArray vertexIndices;
-    UIntArray texCoordsIndices;
-    UIntArray normalIndices;
+    ArrayList<uint> vertexIndices;
+    ArrayList<uint> texCoordsIndices;
+    ArrayList<uint> normalIndices;
 
     while((line = cake_strutf8_readline(&reader))) {
         sub = cake_strutf8_split(line, " ");
@@ -37,7 +37,7 @@ berry::Mesh berry::OBJ::load(const char *filename) {
         // Vertices
         if(cake_strutf8_equals(sub->list[0], "v")) {
             if(sub->data.length > 3) {
-                vertexPositions.add(Vec3(
+                vertexPositions.push(Vec3(
                     cake_strutf8_to_float(sub->list[1], decSep),
                     cake_strutf8_to_float(sub->list[2], decSep),
                     cake_strutf8_to_float(sub->list[3], decSep)
@@ -48,7 +48,7 @@ berry::Mesh berry::OBJ::load(const char *filename) {
         // Textures UV
         else if(cake_strutf8_equals(sub->list[0], "vt")) {
             if(sub->data.length > 2) {
-                texCoords.add(Vec2(
+                texCoords.push(Vec2(
                     cake_strutf8_to_float(sub->list[1], decSep),
                     cake_strutf8_to_float(sub->list[2], decSep)
                 ));
@@ -58,7 +58,7 @@ berry::Mesh berry::OBJ::load(const char *filename) {
         // Normals
         else if(cake_strutf8_equals(sub->list[0], "vn")) {
             if(sub->data.length > 3) {
-                normalPositions.add(Vec3(
+                normalPositions.push(Vec3(
                     cake_strutf8_to_float(sub->list[1], decSep),
                     cake_strutf8_to_float(sub->list[2], decSep),
                     cake_strutf8_to_float(sub->list[3], decSep)
@@ -73,9 +73,9 @@ berry::Mesh berry::OBJ::load(const char *filename) {
 
                 // TODO: gérer les autres cas de figure
                 if(f->data.length > 2) {
-                    vertexIndices.add(cake_strutf8_to_ulonglong(f->list[0]) - 1);
-                    texCoordsIndices.add(cake_strutf8_to_ulonglong(f->list[1]) - 1);
-                    normalIndices.add(cake_strutf8_to_ulonglong(f->list[2]) - 1);
+                    vertexIndices.push(cake_strutf8_to_ulonglong(f->list[0]) - 1);
+                    texCoordsIndices.push(cake_strutf8_to_ulonglong(f->list[1]) - 1);
+                    normalIndices.push(cake_strutf8_to_ulonglong(f->list[2]) - 1);
                 }
                 cake_free_list_strutf8(f);
             }

@@ -4,7 +4,7 @@
 #include <glad/glad.h>
 
 berry::Object::Object(
-    Mesh &mesh,
+    Mesh *mesh,
     float x, float y, float z,
     float degreesX, float degreesY, float degreesZ,
     float scaleX, float scaleY, float scaleZ
@@ -25,7 +25,42 @@ void berry::Object::render(ShaderProgram &shader) const {
     model = Mat4::scale(model, m_Scale.x, m_Scale.y, m_Scale.z);
     shader.setUniform("model", model);
 
-    glBindVertexArray(m_Mesh.getVAO());
-    glDrawArrays(GL_TRIANGLES, 0, m_Mesh.getVerticesNumber());
-    //glDrawElements(GL_TRIANGLES, m_Mesh.getIndicesNumber(), GL_UNSIGNED_INT, m_Mesh.getIndicesPtr());
+    glBindVertexArray(m_Mesh->getVAO());
+    glDrawArrays(GL_TRIANGLES, 0, m_Mesh->getVerticesNumber());
+}
+
+/* Getters */
+
+berry::Vec3 berry::Object::getPosition() const {
+    return m_Pos;
+}
+
+berry::Vec3 berry::Object::getRotation() const {
+    return m_Rotate;
+}
+
+berry::Vec3 berry::Object::getScale() const {
+    return m_Scale;
+}
+
+berry::Mesh *berry::Object::getMesh() {
+    return m_Mesh;
+}
+
+/* Setters */
+
+void berry::Object::setPosition(const Vec3 &position) {
+    m_Pos = position;
+}
+
+void berry::Object::setRotation(const Vec3 &rotation) {
+    m_Rotate = rotation;
+}
+
+void berry::Object::setScale(const Vec3 &scale) {
+    m_Scale = scale;
+}
+
+void berry::Object::setMesh(Mesh *mesh) {
+    m_Mesh = mesh;
 }

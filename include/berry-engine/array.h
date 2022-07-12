@@ -4,71 +4,115 @@
 #include <libcake/def.h>
 #include <berry-engine/vertex.h>
 
+#include <stdlib.h>
+#include <stdio.h>
+
 namespace berry {
 
-    class FloatArray {
+    template<typename T>
+    class ArrayList {
         public:
-            float *array;
-            ulonglong length;
+            ArrayList() {
+                this->m_Array = NULL;
+                this->m_Length = 0;
+            }
 
-            FloatArray();
-            ~FloatArray();
+            ~ArrayList() {
+                free(this->m_Array);
+            }
 
-            float operator[](ulonglong index) const;
+            cake_bool push(const T &value) {
+                void *ptr = realloc(m_Array, (m_Length + 1) * sizeof(T));
+                if(ptr == NULL)
+                    return cake_false;
+                m_Array = (T *) ptr;
+                m_Array[m_Length] = value;
+                m_Length++;
+                return cake_true;
+            }
 
-            cake_bool add(float value);
-    };
+            cake_bool insert(const T &value, ulonglong index) {
+                if(index > m_Length)
+                    return cake_false;
+                void *ptr = realloc(m_Array, (m_Length + 1) * sizeof(T));
+                if(ptr == NULL)
+                    return cake_false;
+                m_Array = (T *) ptr;
+                if(index < m_Length)
+                    memcpy(m_Array + index + 1, m_Array + index, (m_Length - index) * sizeof(T));
+                m_Array[index] = value;
+                m_Length++;
+                return cake_true;
+            }
 
-    class UIntArray {
-        public:
-            uint *array;
-            ulonglong length;
+            cake_bool remove(ulonglong index, T *backup = nullptr) {
+                if(index >= m_Length)
+                    return cake_false;
+                if(backup != nullptr)
+                    *backup = m_Array[index];
+                if(index < m_Length - 1)
+                    memcpy(m_Array + index, m_Array + index + 1, (m_Length - index) * sizeof(T));
+                m_Length--;
+                if(m_Length == 0) {
+                    free(m_Array);
+                    m_Array = NULL;
+                }else {
+                    void *ptr = realloc(m_Array, m_Length * sizeof(T));
+                    if(ptr != NULL)
+                        m_Array = (T *) ptr;
+                }
+                return cake_true;
+            }
 
-            UIntArray();
-            ~UIntArray();
+            cake_bool pop(T *backup = nullptr) {
+                if(m_Length == 0)
+                    return cake_false;
+                if(backup != nullptr)
+                    *backup = m_Array[m_Length - 1];
+                m_Length--;
+                if(m_Length == 0) {
+                    free(m_Array);
+                    m_Array = NULL;
+                }else {
+                    void *ptr = realloc(m_Array, m_Length * sizeof(T));
+                    if(ptr != NULL)
+                        m_Array = (T *) ptr;
+                }
+                return cake_true;
+            }
 
-            uint operator[](ulonglong index) const;
+            cake_bool swap(ulonglong i, ulonglong j) {
+                if(i >= m_Length || j >= m_Length)
+                    return cake_false;
+                T temp = m_Array[i];
+                m_Array[i] = m_Array[j];
+                m_Array[j] = temp;
+                return cake_true;
+            }
 
-            cake_bool add(uint value);
-    };
+            T operator[](ulonglong index) const {
+                return *(m_Array + index);
+            }
 
-    class VertexArray {
-        public:
-            Vertex *array;
-            ulonglong length;
+            T *begin() const {
+                return m_Array;
+            }
 
-            VertexArray();
-            ~VertexArray();
+            T *end() const {
+                return m_Array + m_Length;
+            }
 
-            Vertex operator[](ulonglong index) const;
+            ulonglong getLength() const {
+                return m_Length;
+            }
 
-            cake_bool add(Vertex value);
-    };
+            T *getRawData() {
+                return m_Array;
+            }
 
-    class Vec2Array {
-        public:
-            Vec2 *array;
-            ulonglong length;
-
-            Vec2Array();
-            ~Vec2Array();
-
-            Vec2 operator[](ulonglong index) const;
-
-            cake_bool add(Vec2 value);
-    };
-
-    class Vec3Array {
-        public:
-            Vec3 *array;
-            ulonglong length;
-
-            Vec3Array();
-            ~Vec3Array();
-
-            Vec3 operator[](ulonglong index) const;
-
-            cake_bool add(Vec3 value);
+        private:
+            T *m_Array;
+            ulonglong m_Length;
     };
 
 }

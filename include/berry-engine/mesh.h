@@ -11,19 +11,19 @@ namespace berry {
         public:
             Mesh();
             Mesh(
-                Vec3Array &vertexPositions,
-                Vec2Array &texCoords,
-                Vec3Array &normalPositions,
-                UIntArray &vertexIndices,
-                UIntArray &texCoordsIndices,
-                UIntArray &normalIndices
+                ArrayList<Vec3> &vertexPositions,
+                ArrayList<Vec2> &texCoords,
+                ArrayList<Vec3> &normalPositions,
+                ArrayList<uint> &vertexIndices,
+                ArrayList<uint> &texCoordsIndices,
+                ArrayList<uint> &normalIndices
             );
 
             /* Getters */
             cake_bool isValid() const;
-            VertexArray getVertices() const;
+            ArrayList<Vertex> getVertices() const;
             ulonglong getVerticesNumber() const;
-            UIntArray getIndices() const;
+            ArrayList<uint> getIndices() const;
             ulonglong getIndicesNumber() const;
             uint *getIndicesPtr();
 
@@ -35,8 +35,8 @@ namespace berry {
             void setValid(cake_bool value);
 
         private:
-            VertexArray m_Vertices;
-            UIntArray m_Indices;
+            ArrayList<Vertex> m_Vertices;
+            ArrayList<uint> m_Indices;
 
             uint m_VBO;
             uint m_EBO;

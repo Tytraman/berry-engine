@@ -7,35 +7,35 @@ berry::Mesh::Mesh() :
 {}
 
 berry::Mesh::Mesh(
-    Vec3Array &vertexPositions,
-    Vec2Array &texCoords,
-    Vec3Array &normalPositions,
-    UIntArray &vertexIndices,
-    UIntArray &texCoordsIndices,
-    UIntArray &normalIndices
+    ArrayList<Vec3> &vertexPositions,
+    ArrayList<Vec2> &texCoords,
+    ArrayList<Vec3> &normalPositions,
+    ArrayList<uint> &vertexIndices,
+    ArrayList<uint> &texCoordsIndices,
+    ArrayList<uint> &normalIndices
 ) :
     m_Valid(cake_true)
 {
     ulonglong i;
-    for(i = 0; i < vertexIndices.length; ++i) {
+    for(i = 0; i < vertexIndices.getLength(); ++i) {
         Vertex vertex(
             vertexPositions[vertexIndices[i]],
             texCoords[texCoordsIndices[i]],
             normalPositions[normalIndices[i]],
             RGBColor(1.0f, 1.0f, 1.0f)
         );
-        m_Vertices.add(vertex);
+        m_Vertices.push(vertex);
     }
 
     // VBO
     glGenBuffers(1, &m_VBO);
     glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
-    glBufferData(GL_ARRAY_BUFFER, m_Vertices.length * sizeof(Vertex), m_Vertices.array, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, m_Vertices.getLength() * sizeof(Vertex), m_Vertices.getRawData(), GL_STATIC_DRAW);
 
     // EBO
     glGenBuffers(1, &m_EBO);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_EBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_Indices.length * sizeof(uint), m_Indices.array, GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_Indices.getLength() * sizeof(uint), m_Indices.getRawData(), GL_STATIC_DRAW);
 
     // VAO
     glGenVertexArrays(1, &m_VAO);
@@ -61,24 +61,24 @@ cake_bool berry::Mesh::isValid() const {
     return m_Valid;
 }
 
-berry::VertexArray berry::Mesh::getVertices() const {
+berry::ArrayList<berry::Vertex> berry::Mesh::getVertices() const {
     return m_Vertices;
 }
 
 ulonglong berry::Mesh::getVerticesNumber() const {
-    return m_Vertices.length;
+    return m_Vertices.getLength();
 }
 
-berry::UIntArray berry::Mesh::getIndices() const {
+berry::ArrayList<uint> berry::Mesh::getIndices() const {
     return m_Indices;
 }
 
 ulonglong berry::Mesh::getIndicesNumber() const {
-    return m_Indices.length;
+    return m_Indices.getLength();
 }
 
 uint *berry::Mesh::getIndicesPtr() {
-    return m_Indices.array;
+    return m_Indices.getRawData();
 }
 
 uint berry::Mesh::getVBO() const {
